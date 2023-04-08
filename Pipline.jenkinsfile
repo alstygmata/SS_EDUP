@@ -15,7 +15,7 @@ pipeline  {
             steps {
                 echo 'Creating docker image ...'
                 dir('.'){
-                    sh "docker build -t macnaer/ss_edup . "
+                    sh "docker build -t diogensynonsy/ss_edup . "
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline  {
                 echo " ============== docker login =================="
                 withCredentials([usernamePassword(credentialsId: 'DockerHub-Credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh '''
-                    docker login -u $USERNAME -p $PASSWORD
+                    docker login -u $USERNAME_Dockerhub -p $PASSWORD_Dockerhub
                     '''
                 }
             }
@@ -33,7 +33,7 @@ pipeline  {
             steps {
                 echo " ============== pushing image =================="
                 sh '''
-                docker push macnaer/ss_edup:latest
+                docker push diogensynonsy/ss_edup:latest
                 '''
             }
         }
@@ -57,7 +57,7 @@ pipeline  {
             steps {
                 echo " ============== starting chatterbox server =================="
                 sh '''
-                docker run -d --restart=always --name ss_edup -p 80:80 macnaer/ss_edup
+                docker run -d --restart=always --name ss_edup -p 80:80 diogensynonsy/ss_edup
                 '''
             }
         }
